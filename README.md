@@ -8,7 +8,7 @@ Link: [Google Drive Presentation Video](https://drive.google.com/file/d/1QjE_lHd
 
 ## Live website
 
-After GitHub Pages deploys, the project will be available at:
+The project is now available at:
 
 [https://sam786eer.github.io/Image-Analysis-Hub/](https://sam786eer.github.io/Image-Analysis-Hub/)
 
