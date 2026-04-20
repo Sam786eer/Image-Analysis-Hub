@@ -12,15 +12,6 @@ The project is now available at:
 
 [https://sam786eer.github.io/Image-Analysis-Hub/](https://sam786eer.github.io/Image-Analysis-Hub/)
 
-## Preview
-
-You can add homepage and feature screenshots here later for stronger GitHub presentation, for example:
-
-- Homepage view
-- Color processing page
-- Segmentation page
-- Frequency analysis page
-
 ## Project overview
 
 Image Analysis Hub is designed as an educational, presentation-friendly, and practical image processing platform.
@@ -52,11 +43,14 @@ Users upload an image once, move between dedicated pages, and apply different cl
 
 ## Local run
 
-Open the project locally with:
+1. Install Node.js
+2. Run the server:
 
-```powershell
-C:\Users\mohsa\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe server.js
-```
+   node server.js
+
+3. Open your browser and go to:
+
+   http://localhost:4174/
 
 Then visit:
 
@@ -73,6 +67,4 @@ Then visit:
 
 The AI classification section is an educational browser heuristic, not a trained deep learning model. It is included to make the project more interactive and presentation-ready while leaving scope for future deep learning integration.
 
-## GitHub Pages deployment
 
-This repository includes a GitHub Actions workflow that deploys the website to GitHub Pages automatically when changes are pushed to `main`.
