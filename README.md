@@ -1,6 +1,6 @@
 # Image Analysis Hub
 
-An advanced browser-based digital image processing project inspired by the Gonzalez text.
+A browser-based digital image processing project inspired by the Gonzalez textbook.
 
 ## Included modules
 
