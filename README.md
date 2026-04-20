@@ -52,10 +52,6 @@ Users upload an image once, move between dedicated pages, and apply different cl
 
    http://localhost:4174/
 
-Then visit:
-
-[http://localhost:4174/](http://localhost:4174/)
-
 ## Repository structure
 
 - `index.html` - website structure
