@@ -1288,15 +1288,33 @@ function handleUpload(event) {
 function setupPages() {
   const tabs = document.querySelectorAll(".page-tab");
   const panels = document.querySelectorAll(".page-view");
+  const usingHashRoutes = window.location.hostname.endsWith("github.io");
 
-  function normalizeRoute(pathname) {
-    const cleaned = pathname.replace(/\/+$/, "") || "/";
+  function basePath() {
+    const path = window.location.pathname;
+    if (path.endsWith(".html")) {
+      return path.replace(/[^/]+$/, "");
+    }
+    return path.endsWith("/") ? path : `${path}/`;
+  }
+
+  function normalizeRoute() {
+    if (usingHashRoutes) {
+      const hash = window.location.hash.replace(/^#\/?/, "");
+      if (!hash) return "overview";
+      return ROUTES.has(hash) ? hash : "overview";
+    }
+
+    const cleaned = window.location.pathname.replace(/\/+$/, "") || "/";
     if (cleaned === "/") return "overview";
     const slug = cleaned.slice(1);
     return ROUTES.has(slug) ? slug : "overview";
   }
 
   function routeHref(page) {
+    if (usingHashRoutes) {
+      return page === "overview" ? `${basePath()}#/overview` : `${basePath()}#/${page}`;
+    }
     return page === "overview" ? "/" : `/${page}`;
   }
 
@@ -1307,12 +1325,26 @@ function setupPages() {
   }
 
   function setActivePage(page) {
-    tabs.forEach((button) => button.classList.toggle("active", button.getAttribute("href") === routeHref(page)));
+    tabs.forEach((button) => {
+      const targetPage = button.dataset.pageLink;
+      button.setAttribute("href", routeHref(targetPage));
+      button.classList.toggle("active", targetPage === page);
+    });
     panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.view === page));
     document.title = `${routeLabel(page)} | Image Analysis Hub`;
   }
 
-  setActivePage(normalizeRoute(window.location.pathname));
+  if (usingHashRoutes) {
+    window.addEventListener("hashchange", () => {
+      setActivePage(normalizeRoute());
+    });
+  } else {
+    window.addEventListener("popstate", () => {
+      setActivePage(normalizeRoute());
+    });
+  }
+
+  setActivePage(normalizeRoute());
 }
 
 function setupActions() {
