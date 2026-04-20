@@ -1320,7 +1320,7 @@ function setupPages() {
 
   function routeLabel(page) {
     if (page === "overview") return "Overview";
-    if (page === "ai") return "AI Lab";
+    if (page === "ai") return "AI Analysis";
     return page.charAt(0).toUpperCase() + page.slice(1);
   }
 
