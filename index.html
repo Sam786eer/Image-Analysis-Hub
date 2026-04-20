@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Analysis Hub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <h1>Image Analysis Hub</h1>
+        <p class="hero-text">
+          A browser-based image processing lab inspired by Gonzalez. Explore color models, enhancement,
+          spatial and frequency filtering, morphology, segmentation, transform coding, feature extraction,
+          and an AI-guided analysis layer from one website.
+        </p>
+        <div class="hero-actions">
+          <label class="upload-button" for="imageLoader">Upload Image</label>
+          <button id="loadSampleBtn" class="ghost-button">Load Sample</button>
+          <button id="runAdvisorBtn" class="ghost-button">Run AI Advisor</button>
+          <input id="imageLoader" type="file" accept="image/*" hidden>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="metric">
+          <span>Modules</span>
+          <strong>8</strong>
+        </div>
+        <div class="metric">
+          <span>Methods</span>
+          <strong>30+</strong>
+        </div>
+        <div class="metric">
+          <span>Focus</span>
+          <strong>DIP + AI UX</strong>
+        </div>
+      </div>
+    </header>
+
+    <nav class="panel route-bar">
+      <div class="panel-header">
+        <div>
+          <p class="panel-kicker">Website Navigation</p>
+          <h2>Open a Separate DIP Page</h2>
+        </div>
+      </div>
+      <div class="page-nav">
+        <a class="page-tab" href="/">Overview</a>
+        <a class="page-tab" href="/color">Color</a>
+        <a class="page-tab" href="/enhancement">Enhancement</a>
+        <a class="page-tab" href="/filtering">Filtering</a>
+        <a class="page-tab" href="/frequency">Frequency</a>
+        <a class="page-tab" href="/morphology">Morphology</a>
+        <a class="page-tab" href="/segmentation">Segmentation</a>
+        <a class="page-tab" href="/transforms">Transforms</a>
+        <a class="page-tab" href="/ai">AI Lab</a>
+      </div>
+    </nav>
+
+    <main class="workspace">
+      <section class="panel viewer-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Visual Output</p>
+            <h2>Original / Processed / Spectrum</h2>
+          </div>
+          <button id="resetBtn" class="ghost-button">Reset Result</button>
+        </div>
+
+        <div class="canvas-grid">
+          <div class="canvas-card">
+            <p>Original</p>
+            <canvas id="sourceCanvas" width="480" height="320"></canvas>
+          </div>
+          <div class="canvas-card">
+            <p>Processed</p>
+            <canvas id="resultCanvas" width="480" height="320"></canvas>
+          </div>
+        </div>
+
+        <div id="hsiPanel" class="channels-grid hidden-panel">
+          <div class="mini-card">
+            <p>Hue</p>
+            <canvas id="hCanvas" width="240" height="160"></canvas>
+          </div>
+          <div class="mini-card">
+            <p>Saturation</p>
+            <canvas id="sCanvas" width="240" height="160"></canvas>
+          </div>
+          <div class="mini-card">
+            <p>Intensity</p>
+            <canvas id="iCanvas" width="240" height="160"></canvas>
+          </div>
+        </div>
+
+        <div id="cmykPanel" class="cmyk-grid hidden-panel">
+          <div class="mini-card">
+            <p>Cyan</p>
+            <canvas id="cCanvas" width="240" height="160"></canvas>
+          </div>
+          <div class="mini-card">
+            <p>Magenta</p>
+            <canvas id="mCanvas" width="240" height="160"></canvas>
+          </div>
+          <div class="mini-card">
+            <p>Yellow</p>
+            <canvas id="yCanvas" width="240" height="160"></canvas>
+          </div>
+          <div class="mini-card">
+            <p>Key (Black)</p>
+            <canvas id="kCanvas" width="240" height="160"></canvas>
+          </div>
+        </div>
+
+        <div class="advanced-grid">
+          <div class="mini-card">
+            <p>Fourier Magnitude</p>
+            <canvas id="fftCanvas" width="240" height="160"></canvas>
+          </div>
+          <div class="mini-card">
+            <p>Histogram Profile</p>
+            <canvas id="histCanvas" width="240" height="160"></canvas>
+          </div>
+          <div class="mini-card text-card">
+            <p>Feature Snapshot</p>
+            <div id="featureSummary" class="feature-summary"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel controls-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker">Current Page Controls</p>
+            <h2>Upload or Sample, Then Run This Page</h2>
+          </div>
+        </div>
+
+        <div class="page-view active" data-view="overview">
+          <div class="control-group">
+            <h3>Project Overview</h3>
+            <p>
+              This site now works like a multi-page website inside one application. Use the navigation above
+              to move between dedicated views for each major image processing topic instead of seeing every
+              control at once.
+            </p>
+            <div class="overview-cards">
+              <div class="overview-card">
+                <strong>Color Models</strong>
+                <span>RGB, HSI, and CMYK conversion workflows.</span>
+              </div>
+              <div class="overview-card">
+                <strong>Enhancement</strong>
+                <span>Improve tone, contrast, brightness, and histograms.</span>
+              </div>
+              <div class="overview-card">
+                <strong>Filtering</strong>
+                <span>Use spatial and frequency-domain filtering tools.</span>
+              </div>
+              <div class="overview-card">
+                <strong>AI and Features</strong>
+                <span>Inspect extracted features and AI-guided suggestions.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-view" data-view="color">
+          <div class="control-group">
+            <h3>Color Models</h3>
+            <p>RGB to HSI, HSI to RGB, RGB to CMYK, CMYK to RGB, and color-model-based enhancement.</p>
+            <button class="action-btn" data-action="show-hsi">Show HSI Channels</button>
+            <button class="action-btn" data-action="show-cmyk">Show CMYK Channels</button>
+            <button class="action-btn" data-action="hsi-boost-saturation">Boost Saturation via HSI</button>
+            <button class="action-btn" data-action="hsi-rotate-hue">Rotate Hue</button>
+            <button class="action-btn" data-action="reconstruct-rgb">HSI to RGB Reconstruction</button>
+            <button class="action-btn" data-action="reconstruct-rgb-cmyk">CMYK to RGB Reconstruction</button>
+          </div>
+        </div>
+
+        <div class="page-view" data-view="enhancement">
+          <div class="control-group">
+            <h3>Image Enhancement</h3>
+            <p>Spatial-domain enhancement from intensity transforms and histogram methods.</p>
+            <button class="action-btn" data-action="grayscale">Grayscale</button>
+            <button class="action-btn" data-action="negative">Negative</button>
+            <button class="action-btn" data-action="contrast-stretch">Contrast Stretching</button>
+            <button class="action-btn" data-action="gamma-correct">Gamma Correction</button>
+            <button class="action-btn" data-action="hist-eq">Histogram Equalization</button>
+          </div>
+        </div>
+
+        <div class="page-view" data-view="filtering">
+          <div class="control-group">
+            <h3>Spatial Filtering</h3>
+            <p>Lowpass, nonlinear, and highpass operators.</p>
+            <button class="action-btn" data-action="mean-filter">Mean Filter</button>
+            <button class="action-btn" data-action="gaussian-filter">Gaussian Blur</button>
+            <button class="action-btn" data-action="median-filter">Median Filter</button>
+            <button class="action-btn" data-action="laplacian-sharpen">Laplacian Sharpening</button>
+            <button class="action-btn" data-action="sobel-edge">Sobel Edge Detection</button>
+          </div>
+        </div>
+
+        <div class="page-view" data-view="frequency">
+          <div class="control-group">
+            <h3>Frequency Domain</h3>
+            <p>Fourier magnitude visualization and ideal lowpass or highpass filtering on a reduced image grid.</p>
+            <button class="action-btn" data-action="fft-spectrum">Show DFT Magnitude</button>
+            <button class="action-btn" data-action="freq-lowpass">Ideal Lowpass Filter</button>
+            <button class="action-btn" data-action="freq-highpass">Ideal Highpass Filter</button>
+            <button class="action-btn" data-action="periodic-noise">Periodic Noise + Suppression</button>
+          </div>
+        </div>
+
+        <div class="page-view" data-view="morphology">
+          <div class="control-group">
+            <h3>Morphological Processing</h3>
+            <p>Binary morphology with a 3x3 structuring element.</p>
+            <button class="action-btn" data-action="binary-threshold">Binary Threshold</button>
+            <button class="action-btn" data-action="erosion">Erosion</button>
+            <button class="action-btn" data-action="dilation">Dilation</button>
+            <button class="action-btn" data-action="opening">Opening</button>
+            <button class="action-btn" data-action="closing">Closing</button>
+          </div>
+        </div>
+
+        <div class="page-view" data-view="segmentation">
+          <div class="control-group">
+            <h3>Segmentation</h3>
+            <p>Thresholding, clustering, HSI-guided segmentation, and boundary extraction.</p>
+            <button class="action-btn" data-action="otsu">Otsu Thresholding</button>
+            <button class="action-btn" data-action="kmeans">K-Means Segmentation</button>
+            <button class="action-btn" data-action="color-mask">HSI Color Mask</button>
+            <button class="action-btn" data-action="watershed-style">Morphological Boundary Map</button>
+          </div>
+        </div>
+
+        <div class="page-view" data-view="transforms">
+          <div class="control-group">
+            <h3>Transforms and Compression</h3>
+            <p>Compact energy representations inspired by transform coding and wavelet compression.</p>
+            <button class="action-btn" data-action="haar-analysis">Haar Transform Map</button>
+            <button class="action-btn" data-action="haar-compress">Haar Compression Demo</button>
+            <button class="action-btn" data-action="feature-map">Feature Extraction Map</button>
+          </div>
+        </div>
+
+        <div class="page-view" data-view="ai">
+          <div class="control-group">
+            <h3>AI Lab</h3>
+            <p>An on-page advisor that recommends methods and gives an explainable classifier-style summary.</p>
+            <button class="action-btn" data-action="ai-advisor">Recommend Best Workflow</button>
+            <button class="action-btn" data-action="cnn-demo">CNN-Style Classification</button>
+            <button class="action-btn" data-action="quality-report">Quality Report</button>
+          </div>
+        </div>
+
+        <div class="status-box">
+          <p class="status-label">Current method</p>
+          <h3 id="methodTitle">Loaded sample image</h3>
+          <p id="methodDescription">
+            Upload any image, then switch between modules to demonstrate core and advanced digital image processing techniques.
+          </p>
+        </div>
+
+        <div class="ai-panel">
+          <div class="ai-panel-head">
+            <p class="status-label">AI Helper</p>
+            <h3>Advisor and Classification Desk</h3>
+          </div>
+          <div id="advisorOutput" class="advisor-output"></div>
+          <div id="classifierOutput" class="classifier-output"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
